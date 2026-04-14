@@ -3,13 +3,13 @@ export class GreenApiService {
     this.idInstance = idInstance;
     this.apiTokenInstance = apiTokenInstance;
     this.apiBaseUrl = 'https://api.green-api.com';
-    // Используем raw прокси, чтобы не менять структуру JSON
-    this.proxyUrl = 'https://allorigins.win';
+
+    this.proxyUrl = 'https://api.allorigins.win/raw?url=';
   }
 
   buildUrl(action) {
     const targetUrl = `${this.apiBaseUrl}/waInstance${this.idInstance}/${action}/${this.apiTokenInstance}`;
-    // Кодируем URL, чтобы прокси корректно его воспринял
+
     return `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
   }
 
