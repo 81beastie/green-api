@@ -2,7 +2,7 @@ export class GreenApiService {
   constructor(idInstance, apiTokenInstance) {
     this.idInstance = idInstance;
     this.apiTokenInstance = apiTokenInstance;
-    this.apiBaseUrl = 'https://greenapi.com';
+    this.apiBaseUrl = 'https://green-api.com';
   }
 
   buildUrl(action) {
@@ -13,13 +13,13 @@ export class GreenApiService {
     const url = this.buildUrl(action);
     
     const options = {
-      method,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      method
     };
 
     if (payload) {
+      options.headers = {
+        'Content-Type': 'application/json'
+      };
       options.body = JSON.stringify(payload);
     }
 
