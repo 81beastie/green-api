@@ -10,15 +10,12 @@ export class GreenApiService {
   }
 
   async execute(action, method = 'GET', payload = null) {
-    const url = this.buildUrl(action);
-    
-    // ВАЖНО: Мы НЕ ставим Content-Type, чтобы запрос оставался "простым"
+    const url = this.buildUrl(action);  
     const options = {
       method: method
     };
 
     if (payload) {
-      // Передаем как текст, чтобы браузер не делал OPTIONS запрос
       options.body = JSON.stringify(payload);
     }
 
