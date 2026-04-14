@@ -1,0 +1,2 @@
+.container{display:flex;gap:40px;margin:auto;max-width:1200px;padding:20px}.input-section{flex:1 1;gap:25px}.group,.input-section{display:flex;flex-direction:column}.group{gap:10px}input,textarea{border:1px solid #ccc;border-radius:4px;padding:8px}textarea{height:100px}button{background:#00a884;border:none;border-radius:4px;color:#fff;cursor:pointer;padding:10px}button:disabled{background:#ccc}.output-section{display:flex;flex:1 1;flex-direction:column}.output-section textarea{background:#f9f9f9;font-family:monospace;height:100%}
+/*# sourceMappingURL=main.5e8f5544.css.map*/

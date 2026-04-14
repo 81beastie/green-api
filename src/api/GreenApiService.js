@@ -1,30 +1,47 @@
 export class GreenApiService {
   constructor(idInstance, apiTokenInstance) {
-    this.credentials = { idInstance, apiTokenInstance };
-    this.baseUrl = 'https://green-api.com';
+    this.idInstance = idInstance;
+    this.apiTokenInstance = apiTokenInstance;
+    this.apiBaseUrl = 'https://green-api.com';
+    // Используем raw прокси, чтобы не менять структуру JSON
+    this.proxyUrl = 'https://allorigins.win';
   }
 
-  get requestUrl() {
-    const { idInstance, apiTokenInstance } = this.credentials;
-    return `${this.baseUrl}/waInstance${idInstance}/{action}/${apiTokenInstance}`;
+  buildUrl(action) {
+    const targetUrl = `${this.apiBaseUrl}/waInstance${this.idInstance}/${action}/${this.apiTokenInstance}`;
+    // Кодируем URL, чтобы прокси корректно его воспринял
+    return `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
   }
 
   async execute(action, method = 'GET', payload = null) {
-    const url = this.requestUrl.replace('{action}', action);
+    const url = this.buildUrl(action);
+    
     const options = {
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       ...(payload && { body: JSON.stringify(payload) })
     };
 
     const response = await fetch(url, options);
-    if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Status: ${response.status}. Details: ${errorText}`);
+    }
+
     return response.json();
   }
 
-  getSettings() { return this.execute('getSettings'); }
+  getSettings() { 
+    return this.execute('getSettings'); 
+  }
   
-  getStateInstance() { return this.execute('getStateInstance'); }
+  getStateInstance() { 
+    return this.execute('getStateInstance'); 
+  }
 
   sendMessage(phoneNumber, message) {
     return this.execute('sendMessage', 'POST', {
@@ -34,10 +51,11 @@ export class GreenApiService {
   }
 
   sendFileByUrl(phoneNumber, urlFile) {
+    const fileName = urlFile.split('/').pop() || 'file';
     return this.execute('sendFileByUrl', 'POST', {
       chatId: `${phoneNumber}@c.us`,
       urlFile,
-      fileName: urlFile.split('/').pop()
+      fileName
     });
   }
 }

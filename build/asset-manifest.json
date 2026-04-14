@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/green-api/static/css/main.5e8f5544.css",
+    "main.js": "/green-api/static/js/main.1abd16c0.js",
+    "index.html": "/green-api/index.html",
+    "main.5e8f5544.css.map": "/green-api/static/css/main.5e8f5544.css.map",
+    "main.1abd16c0.js.map": "/green-api/static/js/main.1abd16c0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5e8f5544.css",
+    "static/js/main.1abd16c0.js"
+  ]
+}
