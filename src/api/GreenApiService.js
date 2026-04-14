@@ -12,14 +12,13 @@ export class GreenApiService {
   async execute(action, method = 'GET', payload = null) {
     const url = this.buildUrl(action);
     
+    // ВАЖНО: Мы НЕ ставим Content-Type, чтобы запрос оставался "простым"
     const options = {
-      method
+      method: method
     };
 
     if (payload) {
-      options.headers = {
-        'Content-Type': 'application/json'
-      };
+      // Передаем как текст, чтобы браузер не делал OPTIONS запрос
       options.body = JSON.stringify(payload);
     }
 
@@ -33,13 +32,8 @@ export class GreenApiService {
     return response.json();
   }
 
-  getSettings() { 
-    return this.execute('getSettings'); 
-  }
-   
-  getStateInstance() { 
-    return this.execute('getStateInstance'); 
-  }
+  getSettings() { return this.execute('getSettings'); }
+  getStateInstance() { return this.execute('getStateInstance'); }
 
   sendMessage(phoneNumber, message) {
     return this.execute('sendMessage', 'POST', {
@@ -49,11 +43,10 @@ export class GreenApiService {
   }
 
   sendFileByUrl(phoneNumber, urlFile) {
-    const fileName = urlFile.split('/').pop() || 'file';
     return this.execute('sendFileByUrl', 'POST', {
       chatId: `${phoneNumber}@c.us`,
       urlFile,
-      fileName
+      fileName: 'file'
     });
   }
 }
