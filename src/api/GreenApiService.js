@@ -2,13 +2,11 @@ export class GreenApiService {
   constructor(idInstance, apiTokenInstance) {
     this.idInstance = idInstance;
     this.apiTokenInstance = apiTokenInstance;
-    this.apiBaseUrl = 'https://green-api.com';
-    this.proxyUrl = 'https://corsproxy.io/?';
+    this.apiBaseUrl = 'https://greenapi.com';
   }
 
   buildUrl(action) {
-    const targetUrl = `${this.apiBaseUrl}/waInstance${this.idInstance}/${action}/${this.apiTokenInstance}`;
-    return `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
+    return `${this.apiBaseUrl}/waInstance${this.idInstance}/${action}/${this.apiTokenInstance}`;
   }
 
   async execute(action, method = 'GET', payload = null) {
@@ -16,11 +14,12 @@ export class GreenApiService {
     
     const options = {
       method,
-      mode: 'cors'
+      headers: {
+        'Content-Type': 'application/json'
+      }
     };
 
     if (payload) {
-      options.headers = { 'Content-Type': 'application/json' };
       options.body = JSON.stringify(payload);
     }
 
@@ -58,4 +57,3 @@ export class GreenApiService {
     });
   }
 }
-
