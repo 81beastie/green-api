@@ -2,14 +2,12 @@ export class GreenApiService {
   constructor(idInstance, apiTokenInstance) {
     this.idInstance = idInstance;
     this.apiTokenInstance = apiTokenInstance;
-    this.apiBaseUrl = 'https://api.green-api.com';
-    this.proxyUrl = 'https://corsproxy.io?';
-    //this.proxyUrl = 'https://api.allorigins.win/raw?url=';
+    this.apiBaseUrl = 'https://green-api.com';
+    this.proxyUrl = 'https://corsproxy.io/?';
   }
 
   buildUrl(action) {
     const targetUrl = `${this.apiBaseUrl}/waInstance${this.idInstance}/${action}/${this.apiTokenInstance}`;
-
     return `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
   }
 
@@ -18,18 +16,19 @@ export class GreenApiService {
     
     const options = {
       method,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      ...(payload && { body: JSON.stringify(payload) })
+      mode: 'cors'
     };
+
+    if (payload) {
+      options.headers = { 'Content-Type': 'application/json' };
+      options.body = JSON.stringify(payload);
+    }
 
     const response = await fetch(url, options);
     
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Status: ${response.status}. Details: ${errorText}`);
+      throw new Error(errorText);
     }
 
     return response.json();
@@ -38,7 +37,7 @@ export class GreenApiService {
   getSettings() { 
     return this.execute('getSettings'); 
   }
-  
+   
   getStateInstance() { 
     return this.execute('getStateInstance'); 
   }
@@ -59,3 +58,4 @@ export class GreenApiService {
     });
   }
 }
+
