@@ -3,8 +3,8 @@ export class GreenApiService {
     this.idInstance = idInstance;
     this.apiTokenInstance = apiTokenInstance;
     this.apiBaseUrl = 'https://api.green-api.com';
-
-    this.proxyUrl = 'https://api.allorigins.win/raw?url=';
+    this.proxyUrl = 'https://corsproxy.io?';
+    //this.proxyUrl = 'https://api.allorigins.win/raw?url=';
   }
 
   buildUrl(action) {
