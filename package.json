@@ -1,7 +1,7 @@
 {
   "name": "green-api-app",
   "version": "1.0.0",
-  "homepage": "https://GITHUB_USERNAME.github.io/REPO_NAME",
+  "homepage": "https://81beastie.github.io/green-api"
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
